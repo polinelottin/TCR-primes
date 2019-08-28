@@ -1,0 +1,22 @@
+#!/bin/bash 
+
+pytest;
+
+if [ $? = 0 ]; then 
+
+    if git diff-index --name-status --exit-code HEAD;
+    then
+        echo Tudo certo, nada novo para commitar :);
+    else
+        echo YEAHH!! O TESTE TA VERDE! 
+        echo Vamos commitar tudo, subir pra producao, hj eh dia de maldade;
+
+        date=`date +"%F %T"`
+        git add -A;
+        git commit -m "TCR - auto commit ${date}";
+    fi;
+
+else
+    echo Eita, o TESTE FALHOU. Revertendo o código. Tente outra vez;
+    git reset --hard
+fi
